@@ -1,4 +1,5 @@
 PFont futm;
+PFont futmB;
 
 
 String highpoint_lowlife[] = {"HIGHPOINT", "LOWLIFE"};
@@ -20,14 +21,15 @@ int[][] display_steps;
 void setup() {
   size(900, 900);
 
-  futm = createFont("Futura-Bold", 32);
+  futm = createFont("Futura", 32);
+  futmB = createFont("Futura-Bold", 32);
   textFont(futm);
 
-  frameRate(2);
+  frameRate(1);
 }
 
 void draw() {
-  background(204);
+  background(110, 110, 110);
 
 
   //print("STEP:", step, " FRANENUM:", frameNum, " FMOD:", (frameNum+1) % step, "\n");
@@ -56,7 +58,9 @@ void draw() {
     arrayCopy(cur_word_char_idx, display_steps[0]);
     //print("AAIGHT< SHUFFLED:\n");
     printNums(cur_word_char_idx);
-    mergeSort(0, cur_word_char_idx.length - 1);
+
+    //mergeSort(0, cur_word_char_idx.length - 1);
+    selectionSort();
 
     sort_step = 0;
     cur_step = 0;
@@ -69,19 +73,29 @@ void draw() {
   for (int i = 0; i < num_steps; i++) {
     if (i <= frameNum) {
       //print("FRAMENUM:", i, "\n");
+      if (i == frameNum)
+      {
+        textFont(futmB);
+      } else {
+        textFont(futm);
+      }
       for (int j = 0; j < cur_word_char_idx.length; j++) {
-        if (i > 0 && display_steps[i-1][j] != display_steps[i][j]) {
+        if (i == frameNum && i > 0 && display_steps[i-1][j] != display_steps[i][j]) {
           fill(242, 27, 27);
         } else {
-          fill(255, 255, 255);
+          fill(255, 255, 240);
         }
-        
+
         text(highpoint_lowlife[cur_word_idx].charAt(display_steps[i][j]), j*step_width+30, i*step_width+50);
       }
+      //if (i == num_steps - 1) {
+      //  save("graohic.png");
+      //}
     }
   }
 
   //frameNum = frameCount % cur_word_char_idx.length;
   frameNum = (frameNum + 1) % cur_word_char_idx.length;
   print("FRAMENUm:", frameNum, " FCOUNT:", frameCount, "\n");
+  saveFrame("output/sel_sortHPLL_####.png");
 }
