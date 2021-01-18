@@ -23,7 +23,7 @@ void setup() {
   futm = createFont("Futura-Bold", 32);
   textFont(futm);
 
-  frameRate(1);
+  frameRate(2);
 }
 
 void draw() {
@@ -70,11 +70,18 @@ void draw() {
     if (i <= frameNum) {
       //print("FRAMENUM:", i, "\n");
       for (int j = 0; j < cur_word_char_idx.length; j++) {
+        if (i > 0 && display_steps[i-1][j] != display_steps[i][j]) {
+          fill(242, 27, 27);
+        } else {
+          fill(255, 255, 255);
+        }
+        
         text(highpoint_lowlife[cur_word_idx].charAt(display_steps[i][j]), j*step_width+30, i*step_width+50);
       }
     }
   }
 
-  frameNum = frameCount % cur_word_char_idx.length;
-  print("FRAMENUm:", frameNum, "\n");
+  //frameNum = frameCount % cur_word_char_idx.length;
+  frameNum = (frameNum + 1) % cur_word_char_idx.length;
+  print("FRAMENUm:", frameNum, " FCOUNT:", frameCount, "\n");
 }
